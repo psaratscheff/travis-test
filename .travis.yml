@@ -1,0 +1,14 @@
+language: ruby
+rvm:
+  #- 2.2
+  - 2.3.0
+#before_script:
+#  - psql -c 'create database travis_ci_test;' -U postgres
+#services:
+#  - postgresql
+#addons:
+#  postgresql: "9.1"
+script:
+  - RAILS_ENV=test bundle exec rake db:migrate --trace
+  - bundle exec rake db:test:prepare
+  - bundle exec rake

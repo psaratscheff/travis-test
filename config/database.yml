@@ -12,10 +12,8 @@ development:
   password: '12345'
 
 test:
-  <<: *default
-  database: travis-test_test
-  username: travis-test
-  password: '12345'
+  adapter: postgresql
+  database: travis_ci_test
 
 production:
   <<: *default
