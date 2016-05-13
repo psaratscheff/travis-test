@@ -43,6 +43,7 @@ class HomeController < ApplicationController
       }
       array << transformed_post
     end
+    return array # Don't listen to rubocop, it is NOT REDUNDANT!!
   end
 
   def insta_count(tag, access_token)
