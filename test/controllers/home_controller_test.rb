@@ -16,6 +16,7 @@ class HomeControllerTest < ActionController::TestCase
     assert !json_response['posts'].nil?, msg: 'ERROR 3b: No hay posts'
     assert !json_response['version'].nil?, msg: 'ERROR 3c: No hay version'
     assert !json_response['metadata']['total'].nil?, msg: 'ERROR 3d: No hay total'
+    assert !json_response['posts'][0]['username'].nil?, msg: 'ERROR 3e: No hay username'
   end
 
   test 'should render an error' do
