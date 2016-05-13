@@ -33,7 +33,7 @@ class HomeController < ApplicationController
 
   def insta_process_posts(result)
     array = []
-    foreach result['data'] do |post|
+    result['data'].each do |post|
       transformed_post = {
         tags: post['tags'],
         username: post['user']['username'],
