@@ -1,0 +1,18 @@
+language: ruby
+rvm:
+  #- 2.2
+  - 2.3.0
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
+#services:
+#  - postgresql
+#addons:
+#  postgresql: "9.3"
+script:
+#  - RAILS_ENV=test bundle exec rake db:migrate --trace
+#  - bundle exec rake db:test:prepare
+  - bundle exec rake
+deploy:
+  provider: heroku
+  api_key:
+    secure: "bc26c969-a3b6-4f11-ad55-bd8ba0846446"
