@@ -18,8 +18,10 @@ class HomeController < ApplicationController
     end
 
     begin
+      count = insta_count(tag, access_token)
       result = insta_recent_media(tag, access_token)
-      render json: result
+      posts = insta_process_posts(result)
+      render json: { metadata: { total: count }, posts: posts, version: $version }
     rescue => ex
       logger.error ex.message
       puts 'error 1001'
@@ -28,6 +30,27 @@ class HomeController < ApplicationController
   end
 
   private
+
+  def insta_process_posts(result)
+    array = []
+    foreach result['data'] do |post|
+      transformed_post = {
+        tags: post['tags'],
+        username: post['user']['username'],
+        likes: post['likes']['count'],
+        url: post['images']['standard_resolution']['url'],
+        caption: ['caption']['text']
+      }
+      array << transformed_post
+    end
+  end
+
+  def insta_count(tag, access_token)
+    url = 'https://api.instagram.com/v1/tags/' + tag + '?access_token=' + access_token
+    response = HTTParty.get(url)
+
+    JSON.parse(response.body)['data']['media_count']
+  end
 
   def insta_recent_media(tag, access_token)
     url = 'https://api.instagram.com/v1/tags/' + tag + '/media/recent?'
