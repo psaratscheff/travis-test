@@ -1,9 +1,11 @@
 source 'https://rubygems.org'
 
+# Test coverage checks
 gem 'coveralls', require: false
+# Http requests
+gem 'httparty'
 
 # -----------------------------------------------------------------------------
-
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'
