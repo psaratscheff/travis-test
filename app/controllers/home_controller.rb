@@ -36,17 +36,17 @@ class HomeController < ApplicationController
     result['data'].each do |post|
       transformed_post = {
         tags: post['tags'],
-        username: post['user']['username'],
-        likes: post['likes']['count'],
-        url: post['images']['standard_resolution']['url'],
-        caption: ['caption']['text']
+        username: post['user']['username'].to_s,
+        likes: post['likes']['count'].to_i,
+        url: post['images']['standard_resolution']['url'].to_s,
+        caption: post['caption']['text'].to_s
       }
       array << transformed_post
     end
   end
 
   def insta_count(tag, access_token)
-    url = 'https://api.instagram.com/v1/tags/' + tag + '?access_token=' + access_token
+    url = 'https://api.instagram.com/v1/tags/' + tag.to_s + '?access_token=' + access_token.to_s
     response = HTTParty.get(url)
 
     JSON.parse(response.body)['data']['media_count']
