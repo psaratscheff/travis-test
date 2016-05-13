@@ -14,5 +14,6 @@ script:
   - bundle exec rake
 deploy:
   provider: heroku
+  app: agile-wildwood-37674
   api_key:
     secure: "bc26c969-a3b6-4f11-ad55-bd8ba0846446"
