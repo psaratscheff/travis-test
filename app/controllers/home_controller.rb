@@ -19,6 +19,10 @@ class HomeController < ApplicationController
 
     begin
       count = insta_count(tag, access_token)
+      unless count[1] # Render error, unless no error
+        render json: count[0], status: count[0]['meta']['code']
+        return
+      end
       result = insta_recent_media(tag, access_token)
       posts = insta_process_posts(result)
       render json: { metadata: { total: count }, posts: posts, version: $version }
@@ -49,8 +53,11 @@ class HomeController < ApplicationController
   def insta_count(tag, access_token)
     url = 'https://api.instagram.com/v1/tags/' + tag.to_s + '?access_token=' + access_token.to_s
     response = HTTParty.get(url)
-
-    JSON.parse(response.body)['data']['media_count']
+    result = JSON.parse(response.body)
+    # {"meta"=>{"error_type"=>"OAuthParameterException", "code"=>400, "error_message"=>
+    # "Missing client_id or access_token URL parameter."}}
+    return result, false if result['meta']['code'] != 200
+    return result['data']['media_count'], true
   end
 
   def insta_recent_media(tag, access_token)
