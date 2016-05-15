@@ -19,13 +19,18 @@ class HomeControllerTest < ActionController::TestCase
     assert !json_response['posts'][0]['username'].nil?, msg: 'ERROR 3e: No hay username'
   end
 
-  test 'should render an error' do
+  test 'Post withouth parameters' do
     post :instagram_tag
     assert_response 400, msg: 'ERROR 4: No se obtuvo código 400 al no incluir parametros'
   end
 
-  test 'should throw exception' do
+  test 'invalid tag format (503 expected)' do
     post :instagram_tag, tag: '}'
     assert_response 503, msg: 'ERROR 5: No se lanzó la excepción, habiendo forzado una'
+  end
+
+  test 'Post with wrong access_token' do
+    post :instagram_tag, tag: 'chile', access_token: 'asd'
+    assert_response 400, msg: 'ERROR 6: No se obtuvo código 400 al incluir access_token inválido'
   end
 end
