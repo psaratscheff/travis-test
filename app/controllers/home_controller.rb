@@ -25,7 +25,7 @@ class HomeController < ApplicationController
       end
       result = insta_recent_media(tag, access_token)
       posts = insta_process_posts(result)
-      render json: { metadata: { total: count }, posts: posts, version: $version }
+      render json: { metadata: { total: count[0] }, posts: posts, version: $version }
     rescue => ex
       logger.error ex.message
       puts 'error 1001'

@@ -17,6 +17,8 @@ class HomeControllerTest < ActionController::TestCase
     assert !json_response['version'].nil?, msg: 'ERROR 3c: No hay version'
     assert !json_response['metadata']['total'].nil?, msg: 'ERROR 3d: No hay total'
     assert !json_response['posts'][0]['username'].nil?, msg: 'ERROR 3e: No hay username'
+    total = json_response['metadata']['total']
+    assert (total.is_a? Integer) && (total >= 0), msg: 'Error 3f: Total no es un numero válido'
   end
 
   test 'Post withouth parameters' do
